@@ -1,55 +1,85 @@
-appengine-standard-archetype
-============================
+# webandcloud
 
-This is a generated App Engine Standard Java application from the appengine-standard-archetype archetype.
+**Be sure your maven has access to the web**
+* you should have file ~/.m2/settings.xml
+* otherwise cp ~molli-p/.m2/settings.xml ~/.m2/
 
-See the [Google App Engine standard environment documentation][ae-docs] for more
-detailed instructions.
+```
+molli-p@remote:~/.m2$ cat settings.xml
+<settings>
+ <proxies>
+ <proxy>
+      <active>true</active>
+      <protocol>https</protocol>
+      <host>proxy.ensinfo.sciences.univ-nantes.prive</host>
+      <port>3128</port>
+    </proxy>
+  </proxies>
+</settings>
+```
 
-[ae-docs]: https://cloud.google.com/appengine/docs/java/
+## import and run in eclipse
+* install the code in your home:
+```
+ cd ~
+ git clone https://github.com/momo54/webandcloud.git
+ cd webandcloud
+ mvn install
+```
+* Change "sobike44" with your google project ID in pom.xml
+* Change "sobike44" with your google project ID in src/main/webapp/WEB-INF/appengine-web.xml
+
+## Run in eclipse
+
+* start an eclipse with gcloud plugin
+```
+ /media/Enseignant/eclipse/eclipse
+ or ~molli-p/eclipse/eclipse
+ ```
+* import the maven project in eclipse
+ * File/import/maven/existing maven project
+ * browse to ~/webandcloud
+ * select pom.xml
+ * Finish and wait
+ * Ready to deploy and run...
+ ```
+ gcloud app create error...
+ ```
+ Go to google cloud shell console (icon near your head in google console)
+ ```
+ gcloud app create
+ ```
 
 
-* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Maven](https://maven.apache.org/download.cgi) (at least 3.5)
-* [Google Cloud SDK](https://cloud.google.com/sdk/) (aka gcloud)
+## Install and Run 
+* (gcloud SDK must be installed first. see https://cloud.google.com/sdk/install)
+ * the gcloud command should be in your path. Run the following command to initialize your local install of gcloud.
+```
+gcloud init
+```
+* git clone https://github.com/momo54/webandcloud.git
+* cd webandcloud
+* running local (http://localhost:8080):
+```
+mvn package
+mvn appengine:run
+```
+* Deploying at Google (need gcloud configuration, see error message -> tell you what to do... 
+)
+```
+mvn appengine:deploy
+gcloud app browse
+```
 
-## Setup
-
-    gcloud init
-    gcloud auth application-default login
-
-## Maven
-### Running locally
-
-    mvn appengine:devserver
-
-### Deploying
-
-    mvn appengine:update
-
-## Testing
-
-    mvn verify
-
-As you add / modify the source code (`src/main/java/...`) it's very useful to add
-[unit testing](https://cloud.google.com/appengine/docs/java/tools/localunittesting)
-to (`src/main/test/...`).  The following resources are quite useful:
-
-* [Junit4](http://junit.org/junit4/)
-* [Mockito](http://mockito.org/)
-* [Truth](http://google.github.io/truth/)
-
-## Updating to latest Artifacts
-
-An easy way to keep your projects up to date is to use the maven [Versions plugin][versions-plugin].
-
-    mvn versions:display-plugin-updates
-    mvn versions:display-dependency-updates
-    mvn versions:use-latest-versions
-
-Note - Be careful when changing `javax.servlet` as App Engine Standard uses 3.1 for Java 8, and 2.5
-for Java 7.
-
-Our usual process is to test, update the versions, then test again before committing back.
-
-[plugin]: http://www.mojohaus.org/versions-maven-plugin/
+# Access REST API
+* (worked before) 
+```
+https://<yourapp>.appstpot.com/_ah/api/explorer
+```
+* New version of endpoints (see https://cloud.google.com/endpoints/docs/frameworks/java/adding-api-management?hl=fr):
+```
+mvn clean package
+mvn endpoints-framework:openApiDocs
+gcloud endpoints services deploy target/openapi-docs/openapi.json 
+mvn appengine:deploy
+```
