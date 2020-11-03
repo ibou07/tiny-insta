@@ -1,0 +1,25 @@
+{
+  "name": "mithryljs",
+  "version": "1.0.0",
+  "description": "Sample code for mithryl js testing",
+  "main": "main.js",
+  "scripts": {
+    "dev": "webpack-dev-server --progress --colors --watch",
+    "start": "webpack && npm run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mamadou Saliou DIALLO",
+  "license": "MIT",
+  "dependencies": {
+    "mithril": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/mithril": "^2.0.4",
+    "browser-sync": "^2.26.12",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "write-file-webpack-plugin": "^4.5.1"
+  }
+}
