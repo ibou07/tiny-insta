@@ -1,0 +1,41 @@
+[#_tiny_insta]
+= Tiny Insta
+
+Tiny insta est un projet dans le cadre du cours de `Web and Cloud` du parcours `ALMA` de l'université de Nantes.
+Il consiste à faire un clone du site https://instagram.com[instagram] en utilisant la `Google Cloud` comme support de stockage.
+
+== Diagramme de classe
+
+[plantuml, diagram-classes, png]
+....
+class User{
+    + id: Integer
+    + name: String
+    + surname: String
+
+}
+class Post{
+    + content: String
+    + created_at: datetime
+}
+class Media {
+    + mediaType: String
+    + url: String
+    + content: Byte[]
+}
+User --"posts\n0..*" Post
+User --"friends\n0..*" User
+Post ---"medias\n 0..*" Media
+....
+
+== Tester tiny-insta en local
+
+```
+mvn clean package appengine:run
+```
+
+== Déployer tiny-insta
+
+```
+mvn clean package appengine:deploy
+```
