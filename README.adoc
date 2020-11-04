@@ -6,27 +6,7 @@ Il consiste à faire un clone du site https://instagram.com[instagram] en utilis
 
 == Diagramme de classe
 
-[plantuml, diagram-classes, png]
-....
-class User{
-    + id: Integer
-    + name: String
-    + surname: String
-
-}
-class Post{
-    + content: String
-    + created_at: datetime
-}
-class Media {
-    + mediaType: String
-    + url: String
-    + content: Byte[]
-}
-User --"posts\n0..*" Post
-User --"friends\n0..*" User
-Post ---"medias\n 0..*" Media
-....
+image::diagram-classes.png[]
 
 == Tester tiny-insta en local
 
