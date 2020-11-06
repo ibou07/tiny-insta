@@ -1,6 +1,4 @@
-const m = require("mithril");
-
-export const ArticleWithSlideComponent = {
+const ArticleWithSlideComponent = {
     view: () => {
         return m("article", {class:"card col-12"}, [
             m("div", {class:"card-header"}, [

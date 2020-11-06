@@ -1,11 +1,11 @@
-const m = require("mithril");
-export const SmallProfileComponent = {
+console.log("Current user", currentUser)
+const SmallProfileComponent = {
     view: () => {
         return m('div', {class: "col-sm-4 users"}, [
-            m("img", {class:"image-profile", src:"https://via.placeholder.com/150", alt:"Photo profile"}),
+            m("img", {class:"image-profile", src:currentUser.imageUrl, alt:"Photo profile"}),
             m("div", {class: "details"}, [
-                m("h5", {class:"pseudo"}, "saliou673"),
-                m("p", {class: "name2"}, "Mamadou Saliou DIALLO")
+                m("h5", {class:"pseudo"}, currentUser.name),
+                m("p", {class: "name2"}, currentUser.name)
             ])
         ]);
     }

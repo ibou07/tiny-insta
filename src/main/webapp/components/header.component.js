@@ -1,6 +1,4 @@
-const m = require("mithril");
-
-export const HeaderComponent = {
+const HeaderComponent = {
 
     view: () => {
         return m('header', {}, [

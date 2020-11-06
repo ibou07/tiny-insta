@@ -1,9 +1,32 @@
-const m = require("mithril");
+//currenb user profile
+var currentUser = {}
 
-export const LoginComponent = {
+function loadCurrentUser(profile) {
+    currentUser = {
+        'id': profile.getId(),
+        'name': profile.getName(),
+        'givenName': profile.getGivenName(),
+        'familyName': profile.getFamilyName(),
+        'email': profile.getEmail(),
+        'imageUrl': profile.getImageUrl(),
+    }
+}
 
+function onSignIn(googleUser){
+       var profile = googleUser.getBasicProfile();
+       loadCurrentUser(profile);
+       m.route.set("/home");
+}
+
+const LoginComponent = {
+    profile: {},
+    gp_signOut: (e) => {
+          var auth2 = gapi.auth2.getAuthInstance();
+          auth2.signOut().then(function () {
+          });
+    },
     view: () => {
-        return m('div', {class:"container"}, [
+        return m('div', {class:"container", onclick:"onclick()"}, [
             m('div', {class: 'row main'}, [
                 m('div', {class:'left-box'}, [
                     m('div', {class:'carousel slide', id:'mainCarousel', 'data-ride':'carousel'},[
@@ -28,18 +51,8 @@ export const LoginComponent = {
                 ]),
                 m('div', {class:'right-box'}, [
                     m('h1', {class:'instagram-icon'}),
-                    m("div", {class: "login row align-middle"},[
-                        m("div", {class:"col-12"},[
-                            m('a', {class: "facebook", href: "#"}, [
-                                m("i", {class: "fab fa-facebook-f"})
-                            ], "Se connecter avec Facebook"),
-                            m('a', {class: "twitter", href: "#"}, [
-                                m("i", {class: "fab fa-twitter"})
-                            ], "Se connecter avec Twitter"),
-                            m('a', {class: "google", href: "#"}, [
-                                m("i", {class: "fab fa-google-plus-g"})
-                            ], "Se connecter avec Google")
-                        ])
+                    m("div", {class: "login row align-middle text-center"},[
+                        m("div", {class:"col-12 g-signin2", "data-theme":"dark", href: "#", "data-onsuccess": "onSignIn"})
                     ])
                 ])
             ])
