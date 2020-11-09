@@ -1,6 +1,5 @@
 const SmallProfileComponent = {
     view: () => {
-        console.log("Current user", currentUser)
         return m('div', {class: "col-sm-4 users"}, [
             m("img", {class:"image-profile", src:currentUser.imageUrl, alt:"Photo profile"}),
             m("div", {class: "details"}, [
