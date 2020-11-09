@@ -6,7 +6,7 @@ const HomeComponent = {
     },
     view: () => {
         return m('div', {class:"container"}, [
-            m(HeaderComponent, {}, "Hello"),
+            m(HeaderComponent),
             m(TimelineComponent)
         ]);
     }

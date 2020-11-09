@@ -4,12 +4,35 @@ var currentUser = {}
 function loadCurrentUser(profile) {
     currentUser = {
         'id': profile.getId(),
+        'pseudo': profile.getId(),
+        'token': gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().id_token,
         'name': profile.getName(),
         'givenName': profile.getGivenName(),
         'familyName': profile.getFamilyName(),
         'email': profile.getEmail(),
         'imageUrl': profile.getImageUrl(),
     }
+
+    m.request({
+          method: "GET",
+          url: API_BASE_URL + "/retrieveProfile/:userId",
+          params: {
+            'userId': currentUser.id
+          }
+    })
+    .then(function(result) {
+        //create profile when not registred
+        if(result == null){
+            m.request({
+                method: "POST",
+                url: API_BASE_URL + "/createprofile?access_token=" + encodeURIComponent(currentUser.token),
+                params: currentUser
+            })
+        }
+    })
+    .catch(function(e) {
+        console.log(e.message)
+     })
 }
 
 function onSignIn(googleUser){
