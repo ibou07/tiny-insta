@@ -203,3 +203,14 @@ input::placeholder {
 .name2 {
     color: grey;
 }
+
+.post-icon input[type='file'] {
+    opacity: 0;
+    width: 35px;
+    width: 0;
+}
+.post-icon img {
+    width: 35px;
+    height: 35px;
+    margin-top: -5px;
+}

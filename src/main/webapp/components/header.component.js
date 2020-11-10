@@ -1,5 +1,32 @@
 const HeaderComponent = {
+    oncreate: (vnode) => {
 
+        //add event to trigger input file
+        let postIconImage = document.querySelector(".post-icon img");
+        postIconImage.addEventListener('click', function () {
+          let input = document.querySelector('.post-icon input[type="file"]');
+          input.click();
+        })
+
+        //add selected image to the current dom
+        let inputImageFile = vnode.dom.querySelector("#postimage");
+        inputImageFile.addEventListener('change', function () {
+            let output = document.getElementById("postoutput");
+            let file = inputImageFile.files[0];
+            let reader  = new FileReader();
+
+            reader.addEventListener("load", function () {
+                output.innerHTML = `<img src=${reader.result} class="d-block w-100" alt="Nouveau post">`;
+                //make post component visible
+                let postElement = document.getElementById('newPost');
+                postElement.className = 'card col-12';
+            }, false);
+
+            if(file) {
+                reader.readAsDataURL(file);
+            }
+        });
+    },
     view: () => {
         return m('header', {}, [
             m("nav", {class:"navbar navbar-expand-sm navbar-light bg-light"}, [
@@ -47,6 +74,9 @@ const HeaderComponent = {
                             m("a", {class:"nav-link", href:"#"}, [
                                 m("img", {src:"./images/svg/no-like.svg"})
                             ])
+                        ]),
+                        m("li", {class:"nav-item post-icon", title: "Publier une photo"}, [
+                            m(InitPostComponent)
                         ]),
                     ])
                 ])
