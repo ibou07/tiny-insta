@@ -16,8 +16,10 @@
                 if(e.status == "success") {
                     let data = JSON.parse(e.data)
                     let post = SimpleArticleComponent(data)
-                    TimelineComponent.posts.push(post);
-                    document.getElementById('newPost').remove();
+                    TimelineComponent.posts.unshift(post);
+                    let dom = document.getElementById('newPost');
+                    dom.className = "card col-12 d-none"
+                    document.getElementById("postDescription").value = "";
                 }
           });
  }

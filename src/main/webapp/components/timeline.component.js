@@ -2,6 +2,7 @@ const TimelineComponent = {
     posts: [],
     nextToken: "",
     loadPosts: () => {
+        console.log("Called")
         return
             m.request(
             {
@@ -31,9 +32,7 @@ const TimelineComponent = {
                 TimelineComponent.nextToken=""
             }})
     },
-    oninit: () => {
-        TimelineComponent.loadPosts();
-    },
+    oninit: () => TimelineComponent.loadPosts,
     view: () => {
         return m('div', {class:"feed row"}, [
             m("div", {class:"col-sm-8 feed-content row"}, [

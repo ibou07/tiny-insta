@@ -105,7 +105,7 @@ function SimpleArticleComponent(data) {
                 m("div", {class:"card-footer"}, [
                     m("form", {class:"inline-form", action:""}, [
                         m("input", {type:"text", placeholder:"Ajouter un commentaire"}),
-                        m("button", {class:"submit-comment", type:"submit"}, "Publier" + this.info)
+                        m("button", {class:"submit-comment", type:"submit"}, "Publier")
                     ]),
                     /*m("div", {class:"comments"}, [
                         m("div", {class:"comment row"}, [
