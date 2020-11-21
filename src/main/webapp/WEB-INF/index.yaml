@@ -1,0 +1,4 @@
+indexes:
+  - kind:
+    properties:
+      - name: author

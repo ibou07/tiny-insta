@@ -1,6 +1,25 @@
 
  function post(){
-    console.log("post created !");
+    let file = document.getElementById('postimage').files[0];
+    let description = document.getElementById('postDescription').value;
+
+    let form = new FormData();
+    form.append("imagefile", file);
+    form.append("description", description)
+    form.append('userId', currentUser.googleId)
+    m.request({
+              method: "POST",
+              url: "/createpost",
+              body: form
+          })
+          .then(e => {
+                if(e.status == "success") {
+                    let data = JSON.parse(e.data)
+                    let post = SimpleArticleComponent(data)
+                    TimelineComponent.posts.push(post);
+                    document.getElementById('newPost').remove();
+                }
+          });
  }
  const PostComponent = {
    view: () => {
