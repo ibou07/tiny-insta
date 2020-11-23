@@ -4,9 +4,23 @@
 Tiny insta est un projet dans le cadre du cours de `Web and Cloud` du parcours `ALMA` de l'université de Nantes.
 Il consiste à faire un clone du site https://instagram.com[instagram] en utilisant la `Google Cloud` comme support de stockage.
 
-== Diagramme de classe
+== Auteurs
+- Mamadou Saliou DIALLO (ALMA)
+- Ibrahima DIALLO (ALMA)
+- Irving Gillot FALADE
 
-image::diagram-classes.png[]
+== Fonctionnalités
+- Creation de compte
+- Connexion
+- Publication d'image avec description
+- Modification de posts
+- Suppression de post
+- Affichage timeline (posts)
+- Recherche de personne à suivre
+- Suivre et arrêter de suivre une personne
+
+== Adrese public
+tiny-insta.appspot.com[tiny-insta.appspot.com]
 
 == Tester tiny-insta en local
 
