@@ -29,6 +29,7 @@ function convertKindToProfile(kind) {
          profile.googleId = kind.properties.googleId;
          profile.createdAt = kind.properties.created_at;
          profile.imageUrl = kind.properties.imageUrl;
+         profile.pseudo = kind.properties.pseudo;
      }
     return profile;
 }

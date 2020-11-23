@@ -54,8 +54,10 @@ const HeaderComponent = {
                     m("input", {
                                     class:"form-control mr-sm-2",
                                     type:"search",
+                                    id:"search",
                                     placeholder:"Rechercher",
-                                    "aria-label":"Search"
+                                    "aria-label":"Search",
+                                    onfocus: ()=>{m.route.set('/explore')}
                                 })
                 ]),
                 m("div", {class:"collapse navbar-collapse m-auto", id:"mainNavbar"},[
@@ -72,7 +74,11 @@ const HeaderComponent = {
                             ])
                         ]),
                         m("li", {class:"nav-item"}, [
-                            m("a", {class:"nav-link", href:"#"}, [
+                            m("a", {class:"nav-link", href:"#!/explore", title:"Explorer, Chercher",
+                                        onclick:function(e){e.preventDefault();
+                                                             m.route.set("/explore")
+                                                             }
+                                   }, [
                                 m("img", {src:"./images/svg/compass.svg"})
                             ])
                         ]),

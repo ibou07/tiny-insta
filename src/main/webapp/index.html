@@ -32,16 +32,19 @@
     <script src="./components/articleWithSlide.component.js"></script>
     <script src="./components/header.component.js"></script>
     <script src="./components/simpleArticle.component.js"></script>
+    <script src="./components/user.component.js"></script>
     <script src="./components/smallProfile.component.js"></script>
     <script src="./components/timeline.component.js"></script>
     <script src="./components/home.component.js"></script>
+    <script src="./components/explore.component.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script>
         const root = document.querySelector('main');
 
         m.route(root, "/login", {
             "/login": LoginComponent,
-            "/home": HomeComponent
+            "/home": HomeComponent,
+            "/explore": ExploreComponent
         })
 
         //bootstrap carousel for login page
@@ -54,12 +57,15 @@
             var scrollHeight = $(document).height();
 	        var scrollPosition = $(window).height() + $(window).scrollTop();
             if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight && !isDataLoading) {
-                console.log("Called !");
                 currentScrollPosition = document.body.scrollTop;
                 isDataLoading = true;
-                PostDataSet.next();
+                if(m.route.get() == '/home')
+                    PostDataSet.next();
+                else if(m.route.get() == '/explore')
+                    ExploreDataSet.next();
             }
         });
+
     </script>
 </body>
 </html>

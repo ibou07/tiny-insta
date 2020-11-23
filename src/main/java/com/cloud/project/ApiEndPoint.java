@@ -17,15 +17,15 @@ import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Entity;
 import endpoints.repackaged.com.google.gson.JsonObject;
 
-@Api(name = "tinyinsta",
-     version = "v1",
-     audiences = "379066709774-4eab5t61a8d2emi9nd877ak9lt0jhr7r.apps.googleusercontent.com",
-  	 clientIds = "379066709774-4eab5t61a8d2emi9nd877ak9lt0jhr7r.apps.googleusercontent.com",
+@Api(name = Config.API_NAME,
+     version = Config.API_VERSION,
+     audiences = Config.API_AUDIENCES,
+  	 clientIds = Config.API_CLIENTID,
      namespace =
      @ApiNamespace(
-		   ownerDomain = "helloworld.example.com",
-		   ownerName = "helloworld.example.com",
-		   packagePath = "")
+		   ownerDomain = Config.OWNERDOMAIN,
+		   ownerName = Config.OWNERNAME,
+		   packagePath = Config.PACKAGE_PATH)
      )
 
 public class ApiEndPoint {
@@ -85,6 +85,7 @@ public class ApiEndPoint {
 		txn.commit();
 
 		Data.init(entity.getKey().getName());
+		Data.secondUser();
 		return entity;
 	}
 
@@ -96,17 +97,6 @@ public class ApiEndPoint {
 		}
 		Query q = new Query(Post.class.getCanonicalName())
 				.setFilter(new Query.FilterPredicate("author", Query.FilterOperator.EQUAL, userKey));
-
-		// https://cloud.google.com/appengine/docs/standard/python/datastore/projectionqueries#Indexes_for_projections
-		//q.addProjection(new PropertyProjection("body", String.class));
-		//q.addProjection(new PropertyProjection("date", java.util.Date.class));
-		//q.addProjection(new PropertyProjection("likec", Integer.class));
-		//q.addProjection(new PropertyProjection("url", String.class));
-
-		// looks like a good idea but...
-		// generate a DataStoreNeedIndexException ->
-		// require compositeIndex on owner + date
-		// Explosion combinatoire.
 		q.addSort("created_at", Query.SortDirection.DESCENDING);
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -122,7 +112,6 @@ public class ApiEndPoint {
 		cursorString = results.getCursor().toWebSafeString();
 
 		return CollectionResponse.<Entity>builder().setItems(results).setNextPageToken(cursorString).build();
-
 	}
 
 	/**
