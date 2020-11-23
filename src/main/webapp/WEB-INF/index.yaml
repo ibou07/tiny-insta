@@ -3,4 +3,3 @@ indexes:
     properties:
       - name: author
       - name: created_at
-          direction: desc
