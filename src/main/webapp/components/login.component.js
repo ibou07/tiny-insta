@@ -32,6 +32,7 @@ function loadCurrentUser(profile) {
         })
         .then(response => {
             currentUser.key = response.key.name;
+            currentUser.subscriberCounter = response.properties.subscriberCounter;
         })
      })
 }

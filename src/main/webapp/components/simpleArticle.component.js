@@ -30,6 +30,8 @@ function convertKindToProfile(kind) {
          profile.createdAt = kind.properties.created_at;
          profile.imageUrl = kind.properties.imageUrl;
          profile.pseudo = kind.properties.pseudo;
+         profile.subscriberCounter = kind.properties.subscriberCounter;
+         profile.subscribers = kind.properties.subscribers;
      }
     return profile;
 }

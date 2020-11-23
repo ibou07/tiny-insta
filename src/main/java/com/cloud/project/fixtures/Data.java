@@ -8,8 +8,8 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Transaction;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 
 public class Data {
     public static void secondUser(){
@@ -22,6 +22,7 @@ public class Data {
         entity.setProperty("familyName", "Ducode01");
         entity.setProperty("imageUrl", "https://lh3.googleusercontent.com/a-/AOh14GgwhxwalJ1jflVPpAxBUiKLIkwcz8U_qr8SgAoR=s96-c");
         entity.setProperty("email", "ducode01@gmail.com");
+        entity.setProperty("subscriberCounter", 0);
         entity.setProperty("subscribers", new ArrayList<>());
         entity.setProperty("created_at", new Date());
 

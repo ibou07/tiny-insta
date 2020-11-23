@@ -1,9 +1,9 @@
 package com.cloud.project.model;
 
 import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.users.User;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 import static com.google.appengine.api.datastore.KeyFactory.createKey;
 
@@ -81,5 +81,47 @@ public class Profile {
         Key encodedKey = KeyFactory.createKey(Profile.class.getCanonicalName(), key);
 
         return find("__key__", encodedKey);
+    }
+
+    public static Entity follow(String followed, String follower){
+        Entity profile = Profile.findById(followed);
+        Map properties = profile.getProperties();
+        ArrayList<String> subscribers= (ArrayList<String>) properties.get("subscribers");
+        if(subscribers == null)
+            subscribers = new ArrayList<>();
+        subscribers.add(follower);
+        profile.setProperty("subscribers", subscribers);
+        Long counter = (Long) properties.get("subscriberCounter");
+        profile.setProperty("subscriberCounter", counter+1);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        Transaction txn = datastore.beginTransaction();
+
+        datastore.put(profile);
+
+        txn.commit();
+
+        return profile;
+    }
+
+    public static Entity unfollow(String followed, String follower){
+        Entity profile = Profile.findById(followed);
+        Map properties = profile.getProperties();
+        ArrayList<String> subscribers= (ArrayList<String>) properties.get("subscribers");
+        if(subscribers == null)
+            subscribers = new ArrayList<>();
+        if(subscribers.contains(follower)){
+            subscribers.remove(follower);
+            profile.setProperty("subscribers", subscribers);
+            Long counter = (Long) properties.get("subscriberCounter");
+            profile.setProperty("subscriberCounter", counter-1);
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            Transaction txn = datastore.beginTransaction();
+
+            datastore.put(profile);
+
+            txn.commit();
+        }
+
+        return profile;
     }
 }

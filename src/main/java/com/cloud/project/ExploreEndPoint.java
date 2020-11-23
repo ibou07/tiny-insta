@@ -55,4 +55,23 @@ public class ExploreEndPoint {
 
         return CollectionResponse.<Entity>builder().setItems(results).setNextPageToken(cursorString).build();
     }
+
+    @ApiMethod(name = "follow", httpMethod = HttpMethod.GET)
+    public Entity follow(User user, @Named("followerKey") String followerKey
+                                                        ) throws UnauthorizedException {
+        if (user == null) {
+            throw new UnauthorizedException("Invalid credentials");
+        }
+        return  Profile.follow(user.getId(), followerKey);
+
+    }
+    @ApiMethod(name = "unfollow", httpMethod = HttpMethod.GET)
+    public Entity unfollow(User user, @Named("followerKey") String followerKey
+                                                        ) throws UnauthorizedException {
+        if (user == null) {
+            throw new UnauthorizedException("Invalid credentials");
+        }
+        return  Profile.unfollow(user.getId(), followerKey);
+
+    }
 }

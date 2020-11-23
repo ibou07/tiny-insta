@@ -74,6 +74,7 @@ public class PostAnsProfileEndPoint {
 		entity.setProperty("familyName", profile.familyName);
 		entity.setProperty("imageUrl", profile.imageUrl);
 		entity.setProperty("email", user.getEmail());
+		entity.setProperty("subscriberCounter", 0);
 		entity.setProperty("subscribers", new ArrayList<>());
 		entity.setProperty("created_at", new Date());
 
