@@ -59,7 +59,6 @@ function SimpleArticleComponent(data) {
                 let postKey = info.key.name;
                 let selector = "#post" + postKey;
                  vnode.dom.dataset.author = author.googleId;
-                console.log("dom", vnode.dom.id)
                 if(author.googleId != currentUser.googleId)
                     vnode.dom.querySelector(selector + " .card-header .dot").className = "dot d-none";
 

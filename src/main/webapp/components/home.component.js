@@ -8,7 +8,8 @@ const HomeComponent = {
         return m('div', {class:"container"}, [
             m(HeaderComponent),
             m(TimelineComponent),
-            m(DialogMenuComponent)
+            m(DialogMenuComponent),
+            m(MessageDialogComponent)
         ]);
     }
 }

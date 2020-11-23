@@ -101,6 +101,70 @@ public class PostServlet extends HttpServlet {
 
     }
 
+    @Override
+    public void doPut(HttpServletRequest request, HttpServletResponse response){
+        ServletFileUpload upload = new  ServletFileUpload();
+        try {
+            FileItemIterator iterator = upload.getItemIterator(request);
+
+            //Get image file
+            FileItemStream imageObjectStream = iterator.next();
+            String imageExtension = "";
+            String contentType = imageObjectStream.getContentType();
+            if(contentType != null)
+                imageExtension = imageExtension(contentType);
+
+            InputStream imageFileStream =imageObjectStream.openStream();
+            byte[] imageBytes = IOUtils.toByteArray(imageFileStream);
+            boolean isImageUpdated = true;
+            String imageValue = new String(imageBytes);
+            if(imageValue.equals("nochange")){
+                isImageUpdated = false;
+            }
+            //Get description field
+            InputStream descriptionStream = iterator.next().openStream();
+            byte[] descriptionBytes = IOUtils.toByteArray(descriptionStream);
+            String description = new String(descriptionBytes);
+
+            //Get post key
+            InputStream postKeyStream = iterator.next().openStream();
+            byte[] userIdBytes = IOUtils.toByteArray(postKeyStream);
+            String postKey = new String(userIdBytes);
+
+            Entity post = Post.findByKey(postKey);
+            if(post == null) {
+                userNotFound(response);
+            }else {
+                // Write the image to Cloud Storage
+                String url = (String)post.getProperties().get("imageUrl");
+                if(isImageUpdated){
+                    String filename = Util.normalize(LocalDateTime.now().toString()) + "." + imageExtension;
+                    saveImageToBucket(imageBytes, filename, imageObjectStream.getContentType());
+
+                    url = getImageUrl(filename);
+
+                    String finalFilename = BUCKETPATH + "/" + filename;
+                    post.setProperty("imageName", filename);
+                    post.setProperty("imageUrl", url);
+                }
+                post.setProperty("description", description);
+
+                DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+                Transaction txn = datastore.beginTransaction();
+
+                datastore.put(post);
+
+                txn.commit();
+
+                successResponse(response, url, post);
+            }
+
+        } catch (FileUploadException | IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * Write success message to the response stream
      * @param response

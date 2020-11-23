@@ -19,6 +19,12 @@ const HeaderComponent = {
                 output.innerHTML = `<img src=${reader.result} class="d-block w-100" alt="Nouveau post">`;
                 //make post component visible
                 let postElement = document.getElementById('newPost');
+                postElement.querySelector(".card-header h6").innerHTML = "Nouvelle publication";
+                if(!isEditPost){
+                    postElement.querySelector("#postDescription").value = "";
+                    postElement.querySelector(".card-footer button").innerHTML = "Publier";
+                }
+
                 postElement.className = 'card col-12';
             }, false);
 
