@@ -45,6 +45,18 @@
         $('.carousel').carousel({
             interval: 2000
         })
+        var isDataLoading = false;
+        var currentScrollPosition = 0;
+         $(window).scroll(function () {
+            var scrollHeight = $(document).height();
+	        var scrollPosition = $(window).height() + $(window).scrollTop();
+            if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight && !isDataLoading) {
+                console.log("Called !");
+                currentScrollPosition = document.body.scrollTop;
+                isDataLoading = true;
+                PostDataSet.next();
+            }
+        });
     </script>
 </body>
 </html>

@@ -15,8 +15,8 @@
           .then(e => {
                 if(e.status == "success") {
                     let data = JSON.parse(e.data)
-                    let post = SimpleArticleComponent(data)
-                    TimelineComponent.posts.unshift(post);
+                    let post = m(SimpleArticleComponent(data))
+                    PostDataSet.posts.unshift(post);
                     let dom = document.getElementById('newPost');
                     dom.className = "card col-12 d-none"
                     document.getElementById("postDescription").value = "";

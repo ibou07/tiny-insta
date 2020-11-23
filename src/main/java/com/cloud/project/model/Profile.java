@@ -58,9 +58,9 @@ public class Profile {
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery preparedQuery = datastore.prepare(q);
-        Entity result = preparedQuery.asSingleEntity();
+        Optional<Entity> result = preparedQuery.asQueryResultList(FetchOptions.Builder.withDefaults()).stream().findFirst();
 
-        return result;
+        return result.orElse(null);
     }
 
     /**

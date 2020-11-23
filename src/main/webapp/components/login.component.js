@@ -13,14 +13,14 @@ function loadCurrentUser(profile) {
         'imageUrl': profile.getImageUrl(),
     }
 
-    m.request({
+    return m.request({
           method: "GET",
           url: API_BASE_URL + "/retrieveProfileById/:userId",
           params: {
             'userId': currentUser.googleId
           }
     })
-    .then(result =>  {
+    .then(response =>  {
         currentUser.key = response.key.name;
     })
     .catch(function(e) {
@@ -38,7 +38,7 @@ function loadCurrentUser(profile) {
 
 function onSignIn(googleUser){
        var profile = googleUser.getBasicProfile();
-       loadCurrentUser(profile);
+       loadCurrentUser(profile)
        m.route.set("/home");
 }
 

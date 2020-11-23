@@ -35,34 +35,40 @@ function convertKindToProfile(kind) {
 
 function monthToFrenchString(month) {
     const months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet',
-                    'Août', 'Semptembre', 'Octobre', 'Novembre', 'Décembre'];
+                    'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
     return months[month];
 }
 
 function SimpleArticleComponent(data) {
     return {
-        info: data,
+        data: data,
         oninit: (vnode) => {
-            let userKey = data.info.properties.author;
+            var info = data;
+            if(data.properties == undefined)
+                info = data.tag.data;
+            let userKey = info.properties.author;
              $.get(API_BASE_URL +   "/retrieveProfileByKey/" + userKey,
              (response) => {
                 let author = convertKindToProfile(response);
-                let postKey = data.info.key.name;
+                let postKey = info.key.name;
                 let selector = "#post" + postKey;
                 vnode.dom.querySelector(selector + " .image-profile").src = author.imageUrl;
                 vnode.dom.querySelector(selector + " .details .name").innerHTML = author.givenName + " " + author.familyName;
              })
         },
         view: (vnode) => {
-            var post = convertKindToPost(data.info);
+            var info = data;
+            if(data.properties == undefined)
+                info = data.tag.data;
+            var post = convertKindToPost(info);
             var date = new Date(post.createdAt);
             post.displayedDate = date.getDate() + " " + monthToFrenchString(date.getMonth())
             return m("article", {class:"card col-12", id:"post"+ post.key}, [
                 m("div", {class:"card-header"}, [
-                    m("img", {class:"image-profile", src:"https://via.placeholder.com/150", alt:"Photo profile"}),
+                    m("img", {class:"image-profile", src:"", alt:"Photo profile"}),
                     m("div", {class: "details"}, [
                         m("h5", {class: "name"}, "Mamadou Saliou DIALLO"),
-                        m("p", {class: "location"}, "Nantes")
+                        m("p", {class: "location"}, "")
                     ]),
                     m("a", {class:"dot", href:"#"}, [
                         m("img", {src:"./images/svg/dot.svg", alt:"Plus"})

@@ -2,8 +2,10 @@ package com.cloud.project;
 
 import java.util.*;
 
+import com.cloud.project.fixtures.Data;
 import com.cloud.project.model.Post;
 import com.cloud.project.model.Profile;
+import com.cloud.project.utlil.Config;
 import com.cloud.project.utlil.Util;
 import com.google.api.server.spi.auth.common.User;
 import com.google.api.server.spi.config.*;
@@ -81,12 +83,16 @@ public class ApiEndPoint {
 
 		txn.commit();
 
+		Data.init(entity.getKey().getName());
 		return entity;
 	}
 
 	@ApiMethod(name = "posts", httpMethod = HttpMethod.GET)
-	public CollectionResponse<Entity> posts(@Named("userKey") String userKey, @Nullable @Named("next") String cursorString) {
-
+	public CollectionResponse<Entity> posts(@Named("googleId") String googleId,@Nullable @Named("userKey") String userKey, @Nullable @Named("next") String cursorString) {
+		if(userKey == null){
+			Entity profile = Profile.findById(googleId);
+			userKey = profile.getKey().getName();
+		}
 		Query q = new Query(Post.class.getCanonicalName())
 				.setFilter(new Query.FilterPredicate("author", Query.FilterOperator.EQUAL, userKey));
 
@@ -105,7 +111,7 @@ public class ApiEndPoint {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		PreparedQuery pq = datastore.prepare(q);
 
-		FetchOptions fetchOptions = FetchOptions.Builder.withLimit(1);
+		FetchOptions fetchOptions = FetchOptions.Builder.withLimit(Config.FETCH_POST_LIMIT);
 
 		if (cursorString != null) {
 			fetchOptions.startCursor(Cursor.fromWebSafeString(cursorString));

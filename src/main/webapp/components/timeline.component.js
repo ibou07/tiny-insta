@@ -1,50 +1,53 @@
-const TimelineComponent = {
+var PostDataSet = {
     posts: [],
     nextToken: "",
-    loadPosts: () => {
-        console.log("Called")
-        return
-            m.request(
+    loadPosts: function() {
+        return m.request(
             {
                 method: "GET",
-                url: API_BASE_URL + "/posts/" + currentUser.key
+                url: API_BASE_URL + "/posts/" + currentUser.googleId
              })
             .then(function(response) {
-                console.log("got:",response)
-                TimelineComponent.posts = response.items
+                PostDataSet.posts = response.items
                 if ('nextPageToken' in response) {
-                    MyPost.nextToken= response.nextPageToken
+                    PostDataSet.nextToken= response.nextPageToken
                 } else {
-                    TimelineComponent.nextToken = ""
+                    PostDataSet.nextToken = ""
                 }
-            })
+            }).catch(e => {console.log("post not found")})
     },
     next: () => {
-        return m.request({
-            method: "GET",
-            url: API_BASE_URL + "/posts" + currentUser.key + "?next="+ TimelineComponent.nextToken})
-        .then(function(result) {
-            console.log("got:",response)
-            response.items.map(function(item){MyPost.list.push(item)})
-            if ('nextPageToken' in result) {
-                TimelineComponent.nextToken= response.nextPageToken
-            } else {
-                TimelineComponent.nextToken=""
-            }})
-    },
-    oninit: () => TimelineComponent.loadPosts,
+        if(PostDataSet.nextToken != ""){
+            return m.request({
+                method: "GET",
+                url: API_BASE_URL + "/posts/" + currentUser.googleId + "?next="+ PostDataSet.nextToken + "&userKey=" + currentUser.key })
+            .then(function(response) {
+
+                setTimeout(e=>{
+                    response.items.map(function(item){PostDataSet.posts.push(item)})
+                    document.body.scrollTop = currentScrollPosition;
+                    isDataLoading = false;
+                }, 200)
+
+                if ('nextPageToken' in response) {
+                    PostDataSet.nextToken = response.nextPageToken
+                } else {
+                    PostDataSet.nextToken = ""
+                }})
+            .catch(e => {console.log("next post not found")})
+        }
+    }
+}
+
+const TimelineComponent = {
+    oninit: PostDataSet.loadPosts,
     view: () => {
         return m('div', {class:"feed row"}, [
             m("div", {class:"col-sm-8 feed-content row"}, [
                 m(PostComponent),
-                TimelineComponent.posts.map(post => {
+                PostDataSet.posts.map(post => {
                     return m(SimpleArticleComponent(post))
-                }),
-                m('button',{
-                		      class: 'btn btn-primary',
-                		      onclick: function(e) {TimelineComponent.next()}
-                		      },
-                		  "Next")
+                })
             ]),
             m(SmallProfileComponent)
         ]);
