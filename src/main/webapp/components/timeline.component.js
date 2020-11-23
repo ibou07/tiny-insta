@@ -8,11 +8,13 @@ var PostDataSet = {
                 url: API_BASE_URL + "/posts/" + currentUser.googleId
              })
             .then(function(response) {
-                PostDataSet.posts = response.items
-                if ('nextPageToken' in response) {
-                    PostDataSet.nextToken= response.nextPageToken
-                } else {
-                    PostDataSet.nextToken = ""
+                if(response.items != null && response.items != undefined){
+                    PostDataSet.posts = response.items
+                    if ('nextPageToken' in response) {
+                        PostDataSet.nextToken= response.nextPageToken
+                    } else {
+                        PostDataSet.nextToken = ""
+                    }
                 }
             }).catch(e => {console.log("post not found")})
     },

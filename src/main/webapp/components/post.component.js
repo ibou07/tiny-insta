@@ -22,12 +22,20 @@ var isEditPost = false;
                   })
                   .then(e => {
                         if(e.status == "success") {
-                            let post = PostDataSet.posts.find(e => {return e.key.name == currentPostKey})
+                            let post = PostDataSet.posts.find(e => {let a = e.key==undefined ? e.tag.data:e;return a.key.name == currentPostKey})
                             let postIndex = PostDataSet.posts.indexOf(post);
-                            PostDataSet.posts[postIndex].properties.description = description
-                            let data = JSON.parse(e.data);
-                            PostDataSet.posts[postIndex].properties.imageUrl = data.properties.imageUrl
-                            PostDataSet.posts[postIndex].properties.imageName = data.properties.imageName
+                            if(PostDataSet.posts[postIndex].properties != undefined){
+                                PostDataSet.posts[postIndex].properties.description = description
+                                let data = JSON.parse(e.data);
+                                PostDataSet.posts[postIndex].properties.imageUrl = data.properties.imageUrl
+                                PostDataSet.posts[postIndex].properties.imageName = data.properties.imageName
+                            }
+                            else{
+                                PostDataSet.posts[postIndex].tag.data.properties.description = description
+                                let data = JSON.parse(e.data);
+                                PostDataSet.posts[postIndex].tag.data.properties.imageUrl = data.properties.imageUrl
+                                PostDataSet.posts[postIndex].tag.data.properties.imageName = data.properties.imageName
+                            }
 
                             let dom = document.getElementById('newPost');
                             dom.className = "card col-12 d-none"

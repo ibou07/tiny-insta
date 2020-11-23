@@ -8,7 +8,7 @@ function deletePost(event) {
         })
         .then(response =>  {
             console.log(response)
-            let post = PostDataSet.posts.find(e => {return e.key.name == currentPostKey})
+            let post = PostDataSet.posts.find(e => {let a = e.key==undefined ? e.tag.data:e; return a.key.name == currentPostKey})
             let postIndex = PostDataSet.posts.indexOf(post);
             PostDataSet.posts.splice(postIndex, 1);
             $('#messageDialog p').text("Post supprimé avec succès !");
@@ -19,7 +19,7 @@ function deletePost(event) {
 }
 
 function updatePost(event) {
-     let post = PostDataSet.posts.find(e => {return e.key.name == currentPostKey})
+     let post = PostDataSet.posts.find(e => {let a = e.key==undefined ? e.tag.data:e; return a.key.name == currentPostKey})
      post = convertKindToPost(post);
      let postIndex = PostDataSet.posts.indexOf(post);
      let postElement = document.getElementById('newPost');

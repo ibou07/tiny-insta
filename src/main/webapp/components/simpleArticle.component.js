@@ -4,6 +4,8 @@ Convert datastore kind to simple JS object
 function convertKindToPost(kind) {
     let post = {};
     if(kind != null && Object.keys(kind).length != 0 ){
+        if(kind.key == null)
+            kind = kind.tag.data
         post.key = kind.key.name;
         post.author = kind.properties.author;
         post.createdAt = kind.properties.created_at;

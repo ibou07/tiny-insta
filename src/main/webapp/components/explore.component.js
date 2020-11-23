@@ -13,12 +13,14 @@ var ExploreDataSet = {
              url: API_BASE_URL + "/users?access_token=" + encodeURIComponent(currentUser.token)
           })
          .then(function(response) {
-             ExploreDataSet.users = response.items
-             if ('nextPageToken' in response) {
-                 ExploreDataSet.nextToken= response.nextPageToken
-             } else {
-                 ExploreDataSet.nextToken = ""
-             }
+            if(response.items != null && response.items != undefined){
+                 ExploreDataSet.users = response.items
+                 if ('nextPageToken' in response) {
+                     ExploreDataSet.nextToken= response.nextPageToken
+                 } else {
+                     ExploreDataSet.nextToken = ""
+                 }
+            }
          }).catch(e => {console.log("person not found")})
  },
  next: () => {

@@ -85,8 +85,9 @@ public class PostAnsProfileEndPoint {
 
 		txn.commit();
 
-		Data.init(entity.getKey().getName());
-		Data.secondUser();
+		//generate fake data
+//		Data.init(entity.getKey().getName());
+//		Data.secondUser();
 		return entity;
 	}
 
