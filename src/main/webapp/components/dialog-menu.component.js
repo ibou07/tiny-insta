@@ -11,6 +11,8 @@ function deletePost(event) {
             let post = PostDataSet.posts.find(e => {return e.key.name == currentPostKey})
             let postIndex = PostDataSet.posts.indexOf(post);
             PostDataSet.posts.splice(postIndex, 1);
+            $('#messageDialog p').text("Post supprimé avec succès !");
+            $('#messageDialog').modal('show');
             $('#actionOnPost').modal('hide')
         })
         .catch(e=>{"Unable to delete post"})
