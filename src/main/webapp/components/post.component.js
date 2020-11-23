@@ -24,12 +24,18 @@ var isEditPost = false;
                         if(e.status == "success") {
                             let post = PostDataSet.posts.find(e => {return e.key.name == currentPostKey})
                             let postIndex = PostDataSet.posts.indexOf(post);
+                            PostDataSet.posts[postIndex].properties.description = description
+                            let data = JSON.parse(e.data);
+                            PostDataSet.posts[postIndex].properties.imageUrl = data.properties.imageUrl
+                            PostDataSet.posts[postIndex].properties.imageName = data.properties.imageName
+
                             let dom = document.getElementById('newPost');
                             dom.className = "card col-12 d-none"
                             isEditPost = false;
                             $('#messageDialog p').text("Post modifié avec succès !");
                             $('#messageDialog').modal('show');
-                            m.route.set('/home')
+                            m.redraw();
+
                         }
                   });
         return;
