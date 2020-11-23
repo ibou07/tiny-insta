@@ -38,7 +38,13 @@ function monthToFrenchString(month) {
                     'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
     return months[month];
 }
-
+var currentPostKey = "";
+function more(e){
+    e.preventDefault();
+    let postElement = e.target.parentNode.parentNode.parentNode;
+    currentPostKey = postElement.id.split("post")[1];
+    $('#actionOnPost').modal()
+}
 function SimpleArticleComponent(data) {
     return {
         data: data,
@@ -52,6 +58,11 @@ function SimpleArticleComponent(data) {
                 let author = convertKindToProfile(response);
                 let postKey = info.key.name;
                 let selector = "#post" + postKey;
+                 vnode.dom.dataset.author = author.googleId;
+                console.log("dom", vnode.dom.id)
+                if(author.googleId != currentUser.googleId)
+                    vnode.dom.querySelector(selector + " .card-header .dot").className = "dot d-none";
+
                 vnode.dom.querySelector(selector + " .image-profile").src = author.imageUrl;
                 vnode.dom.querySelector(selector + " .details .name").innerHTML = author.givenName + " " + author.familyName;
              })
@@ -63,7 +74,7 @@ function SimpleArticleComponent(data) {
             var post = convertKindToPost(info);
             var date = new Date(post.createdAt);
             post.displayedDate = date.getDate() + " " + monthToFrenchString(date.getMonth())
-            return m("article", {class:"card col-12", id:"post"+ post.key}, [
+            return m("article", {class:"card col-12", id:"post"+ post.key, "data-author":""}, [
                 m("div", {class:"card-header"}, [
                     m("img", {class:"image-profile", src:"", alt:"Photo profile"}),
                     m("div", {class: "details"}, [
@@ -71,7 +82,7 @@ function SimpleArticleComponent(data) {
                         m("p", {class: "location"}, "")
                     ]),
                     m("a", {class:"dot", href:"#"}, [
-                        m("img", {src:"./images/svg/dot.svg", alt:"Plus"})
+                        m("img", {src:"./images/svg/dot.svg", alt:"Plus", onclick:more})
                     ])
                 ]),
                 m("div", {class:"card-body"}, [

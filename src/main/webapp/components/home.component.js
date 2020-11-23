@@ -7,7 +7,8 @@ const HomeComponent = {
     view: () => {
         return m('div', {class:"container"}, [
             m(HeaderComponent),
-            m(TimelineComponent)
+            m(TimelineComponent),
+            m(DialogMenuComponent)
         ]);
     }
 }

@@ -79,12 +79,6 @@ public class Profile {
      */
     public static Entity findByKey(String key) {
         Key encodedKey = KeyFactory.createKey(Profile.class.getCanonicalName(), key);
-//        Query q = new Query(Profile.class.getCanonicalName()).setFilter(
-//                new Query.FilterPredicate("__key__", Query.FilterOperator.EQUAL, encodedKey));
-//
-//        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-//        PreparedQuery preparedQuery = datastore.prepare(q);
-//        Optional<Entity> result = preparedQuery.asList(FetchOptions.Builder.withDefaults()).stream().findFirst();
 
         return find("__key__", encodedKey);
     }

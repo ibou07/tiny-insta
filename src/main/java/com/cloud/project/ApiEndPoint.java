@@ -15,6 +15,7 @@ import com.google.api.server.spi.response.UnauthorizedException;
 
 import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Entity;
+import endpoints.repackaged.com.google.gson.JsonObject;
 
 @Api(name = "tinyinsta",
      version = "v1",
@@ -122,6 +123,27 @@ public class ApiEndPoint {
 
 		return CollectionResponse.<Entity>builder().setItems(results).setNextPageToken(cursorString).build();
 
+	}
+
+	/**
+	 * Remove post by key
+	 * @param postKey
+	 * @return
+	 * @throws UnauthorizedException
+	 */
+	@ApiMethod(name = "postdelete", httpMethod = HttpMethod.GET)
+	public Object postdelete(@Named("postKey") String postKey) {
+		Entity post = Post.findByKey(postKey);
+		JsonObject jsonResponse = new JsonObject();
+		if(post == null){
+			jsonResponse.addProperty("status", "failed");
+			jsonResponse.addProperty("message", "User not found");
+		}else{
+			Post.delete(post.getKey());
+			jsonResponse.addProperty("status", "success");
+			jsonResponse.addProperty("message", "Post deleted");
+		}
+		return jsonResponse.toString();
 	}
 
 
