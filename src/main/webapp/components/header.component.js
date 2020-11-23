@@ -63,7 +63,7 @@ const HeaderComponent = {
                 m("div", {class:"collapse navbar-collapse m-auto", id:"mainNavbar"},[
                     m("ul", {class:"navbar-nav mr-auto"}, [
                         m("li", {class:"nav-item active"}, [
-                            m("a", {class:"nav-link", href:"#"}, [
+                            m("a", {class:"nav-link", href:"#!/home"}, [
                                 m("span", {class:"sr-only"}, "(Current)"),
                                 m("img", {src:"./images/svg/home.svg"})
                             ])
@@ -74,10 +74,7 @@ const HeaderComponent = {
                             ])
                         ]),
                         m("li", {class:"nav-item"}, [
-                            m("a", {class:"nav-link", href:"#!/explore", title:"Explorer, Chercher",
-                                        onclick:function(e){e.preventDefault();
-                                                             m.route.set("/explore")
-                                                             }
+                            m("a", {class:"nav-link", href:"#!/explore", title:"Explorer, Chercher"
                                    }, [
                                 m("img", {src:"./images/svg/compass.svg"})
                             ])

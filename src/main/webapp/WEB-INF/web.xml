@@ -13,7 +13,7 @@
 		<servlet-class>com.google.api.server.spi.EndpointsServlet</servlet-class>
 		<init-param>
 			<param-name>services</param-name>
-			<param-value>com.cloud.project.ApiEndPoint, com.cloud.project.ExploreEndPoint</param-value>
+			<param-value>com.cloud.project.PostAnsProfileEndPoint, com.cloud.project.ExploreEndPoint</param-value>
 		</init-param>
 	</servlet>
 	<!-- Route API method requests to the backend. -->

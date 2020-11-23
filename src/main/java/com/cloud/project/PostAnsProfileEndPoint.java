@@ -28,7 +28,7 @@ import endpoints.repackaged.com.google.gson.JsonObject;
 		   packagePath = Config.PACKAGE_PATH)
      )
 
-public class ApiEndPoint {
+public class PostAnsProfileEndPoint {
 
 	/**
 	 * Get user profile by key
@@ -95,8 +95,8 @@ public class ApiEndPoint {
 			Entity profile = Profile.findById(googleId);
 			userKey = profile.getKey().getName();
 		}
-		Query q = new Query(Post.class.getCanonicalName())
-				.setFilter(new Query.FilterPredicate("author", Query.FilterOperator.EQUAL, userKey));
+		Query q = new Query(Post.class.getCanonicalName());
+				//.setFilter(new Query.FilterPredicate("author", Query.FilterOperator.EQUAL, userKey));
 		q.addSort("created_at", Query.SortDirection.DESCENDING);
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
