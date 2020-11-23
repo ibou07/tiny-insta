@@ -22,6 +22,9 @@ Il consiste à faire un clone du site https://instagram.com[instagram] en utilis
 == Adrese public
 tiny-insta.appspot.com[tiny-insta.appspot.com]
 
+== API endpoint
+https://endpointsportal.tiny-insta.cloud.goog[https://endpointsportal.tiny-insta.cloud.goog]
+
 == Tester tiny-insta en local
 
 ```
